@@ -3,11 +3,36 @@ package com.tellmeajoke.ui.favourite
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tellmeajoke.main.DispatcherProvider
+import com.tellmeajoke.main.MainRepository
+import com.tellmeajoke.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val mainRepository: MainRepository,
+    private val dispatchers: DispatcherProvider
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    private val _jokeText = MutableLiveData<String>()
+
+    val jokeText: LiveData<String> = _jokeText
+
+    fun fetchJoke() {
+
+        viewModelScope.launch(dispatchers.io) {
+            when (val jokesResponse = mainRepository.getJoke()) {
+                is Resource.Success -> {
+                    _jokeText.postValue(jokesResponse.data?.joke)
+                }
+                is Resource.Error -> {
+                    println(jokesResponse.message)
+                }
+            }
+        }
     }
-    val text: LiveData<String> = _text
 }
