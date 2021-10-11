@@ -22,15 +22,21 @@ class HomeViewModel @Inject constructor(
 
     val jokeText: LiveData<String> = _jokeText
 
+    private val _isLoading = MutableLiveData<Boolean>(true)
+
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun fetchJoke() {
 
+        _isLoading.value = true
         viewModelScope.launch(dispatchers.io) {
             when (val jokesResponse = mainRepository.getJoke()) {
                 is Resource.Success -> {
                     _jokeText.postValue(jokesResponse.data?.joke)
+                    _isLoading.postValue(false)
                 }
                 is Resource.Error -> {
-                    println(jokesResponse.message)
+                    _isLoading.postValue(false)
                 }
             }
         }

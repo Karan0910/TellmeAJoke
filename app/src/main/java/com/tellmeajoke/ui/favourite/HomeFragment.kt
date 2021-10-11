@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -33,10 +35,24 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textJoke
+
         homeViewModel.jokeText.observe(viewLifecycleOwner, Observer {
             textView.text = it
-            println(it)
         })
+
+        homeViewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.loadingBar.visibility = View.VISIBLE
+            } else {
+                binding.loadingBar.visibility = View.INVISIBLE
+            }
+        }
+
+        val refreshButton : ImageButton = binding.refreshButton
+
+        refreshButton.setOnClickListener {
+            homeViewModel.fetchJoke()
+        }
 
         homeViewModel.fetchJoke()
 
