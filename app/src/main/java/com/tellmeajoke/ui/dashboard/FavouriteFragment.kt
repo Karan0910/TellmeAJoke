@@ -9,12 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tellmeajoke.data.db.entities.FavouriteJoke
 import com.tellmeajoke.databinding.FragmentFavBinding
 import com.tellmeajoke.ui.adapter.JokesAdapter
+import com.tellmeajoke.ui.adapter.onDeleteClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavouriteFragment : Fragment() {
+class FavouriteFragment : Fragment(), onDeleteClickListener {
 
     private lateinit var favouriteViewModel: FavouriteViewModel
     private var _binding: FragmentFavBinding? = null
@@ -36,7 +38,7 @@ class FavouriteFragment : Fragment() {
 
         val recyclerView = binding.favJokeRecyclerView
 
-        val jokesAdapter = JokesAdapter()
+        val jokesAdapter = JokesAdapter(this)
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -53,5 +55,9 @@ class FavouriteFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDeleteClick(joke: FavouriteJoke) {
+        favouriteViewModel.deleteJoke(joke)
     }
 }

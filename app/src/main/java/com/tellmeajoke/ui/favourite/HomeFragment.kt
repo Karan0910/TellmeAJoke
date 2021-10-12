@@ -60,11 +60,6 @@ class HomeFragment : Fragment() {
             homeViewModel.addJoke()
         }
 
-//        homeViewModel.g().observe(viewLifecycleOwner) {
-//            print("karannn")
-//            print(it)
-//        }
-
         homeViewModel.fetchJoke()
 
         return root

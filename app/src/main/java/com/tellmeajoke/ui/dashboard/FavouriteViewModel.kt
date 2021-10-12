@@ -1,12 +1,14 @@
 package com.tellmeajoke.ui.dashboard
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.tellmeajoke.data.db.entities.FavouriteJoke
 import com.tellmeajoke.main.DispatcherProvider
 import com.tellmeajoke.main.MainRepository
+import com.tellmeajoke.ui.adapter.onDeleteClickListener
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -16,14 +18,14 @@ class FavouriteViewModel @Inject constructor(
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {
 
-
-    private val _favJokes = MutableLiveData<List<FavouriteJoke>>()
-
-    val favJokes: LiveData<List<FavouriteJoke>> = _favJokes
-
-
     fun getAllFavJokes(): LiveData<List<FavouriteJoke>> {
         return mainRepository.getFavoriteJokes()
+    }
+
+    fun deleteJoke(joke: FavouriteJoke) {
+        viewModelScope.launch(dispatchers.io) {
+            mainRepository.deleteFavoriteJoke(joke)
+        }
     }
 
 }
