@@ -33,8 +33,8 @@ class FavouriteFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textDashboard
-        favouriteViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        favouriteViewModel.getAllFavJokes().observe(viewLifecycleOwner, Observer {
+            textView.text = it.get(2).joke
         })
         return root
     }

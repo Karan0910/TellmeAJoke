@@ -36,8 +36,8 @@ class HomeFragment : Fragment() {
 
         val textView: TextView = binding.textJoke
 
-        homeViewModel.jokeText.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        homeViewModel.joke.observe(viewLifecycleOwner, Observer {
+            textView.text = it.joke
         })
 
         homeViewModel.isLoading.observe(viewLifecycleOwner) {
@@ -53,6 +53,17 @@ class HomeFragment : Fragment() {
         refreshButton.setOnClickListener {
             homeViewModel.fetchJoke()
         }
+
+        val favButton : ImageButton = binding.favButton
+
+        favButton.setOnClickListener {
+            homeViewModel.addJoke()
+        }
+
+//        homeViewModel.g().observe(viewLifecycleOwner) {
+//            print("karannn")
+//            print(it)
+//        }
 
         homeViewModel.fetchJoke()
 

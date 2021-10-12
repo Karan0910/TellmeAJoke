@@ -1,6 +1,9 @@
 package com.tellmeajoke.di
 
+import android.app.Application
+import androidx.room.Room
 import com.tellmeajoke.data.api.JokeApi
+import com.tellmeajoke.data.db.FavoriteJokeDatabase
 import com.tellmeajoke.main.DispatcherProvider
 import com.tellmeajoke.main.MainRepository
 import com.tellmeajoke.main.MainRepositoryImpl
@@ -30,7 +33,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesMainRepository(api : JokeApi) : MainRepository = MainRepositoryImpl(api)
+    fun providesMainRepository(api : JokeApi,db: FavoriteJokeDatabase) : MainRepository = MainRepositoryImpl(api,db.jokesDao)
 
     @Singleton
     @Provides
@@ -42,5 +45,15 @@ object AppModule {
         override val default: CoroutineDispatcher
             get() = Dispatchers.Default
 
+    }
+
+    @Singleton
+    @Provides
+    fun providesJokeDatabase(app: Application) : FavoriteJokeDatabase {
+        return Room.databaseBuilder(
+            app,
+            FavoriteJokeDatabase::class.java,
+            FavoriteJokeDatabase.DATABASE_NAME
+        ).build()
     }
 }
