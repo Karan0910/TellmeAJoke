@@ -2,4 +2,6 @@
     <string name="app_name">Tell Me A Joke</string>
     <string name="title_home">Home</string>
     <string name="title_favourite">Favorites</string>
+    <string name="like">Like</string>
+    <string name="new_joke">Get a new Joke</string>
 </resources>

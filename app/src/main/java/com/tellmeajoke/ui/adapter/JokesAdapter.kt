@@ -35,7 +35,7 @@ class JokesAdapter(private val deleteClickListener: onDeleteClickListener) :
         internal fun bind(joke: FavouriteJoke) {
             binding.textJoke.text = joke.joke
 
-            itemView.setOnClickListener {
+            binding.deleteBt.setOnClickListener {
                 deleteClickListener.onDeleteClick(joke)
             }
         }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -35,27 +36,27 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textJoke
+        val favButton : ImageView = binding.favButton
 
         homeViewModel.joke.observe(viewLifecycleOwner, Observer {
+            println(it)
             textView.text = it.joke
+            favButton.isSelected = it.isFav
         })
 
         homeViewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
-                binding.loadingBar.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.VISIBLE
             } else {
-                binding.loadingBar.visibility = View.INVISIBLE
+                binding.progressBar.visibility = View.INVISIBLE
             }
         }
 
-        val refreshButton : ImageButton = binding.refreshButton
+        val refreshButton : Button = binding.refreshButton
 
         refreshButton.setOnClickListener {
             homeViewModel.fetchJoke()
         }
-
-        val favButton : ImageButton = binding.favButton
-
         favButton.setOnClickListener {
             homeViewModel.addJoke()
         }

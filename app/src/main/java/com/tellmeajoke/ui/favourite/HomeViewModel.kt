@@ -49,6 +49,11 @@ class HomeViewModel @Inject constructor(
 
     fun addJoke() {
         viewModelScope.launch(dispatchers.io) {
+            val joke = _joke.value
+            if (joke != null) {
+                joke.isFav = true
+            }
+            _joke.postValue(joke!!)
             _joke.value?.let { mapToJoke(it) }?.let { mainRepository.insertFavoriteJoke(it) }
         }
     }
