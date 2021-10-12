@@ -4,18 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.tellmeajoke.databinding.FragmentDashboardBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.tellmeajoke.databinding.FragmentFavBinding
+import com.tellmeajoke.ui.adapter.JokesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FavouriteFragment : Fragment() {
 
     private lateinit var favouriteViewModel: FavouriteViewModel
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentFavBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -29,13 +31,22 @@ class FavouriteFragment : Fragment() {
         favouriteViewModel =
             ViewModelProvider(this).get(FavouriteViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentFavBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
+        val recyclerView = binding.favJokeRecyclerView
+
+        val jokesAdapter = JokesAdapter()
+
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = jokesAdapter
+        }
+
         favouriteViewModel.getAllFavJokes().observe(viewLifecycleOwner, Observer {
-            textView.text = it.get(2).joke
+            jokesAdapter.submitList(it)
         })
+
         return root
     }
 
