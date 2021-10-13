@@ -16,7 +16,7 @@ val listDiffer = object : DiffUtil.ItemCallback<FavouriteJoke>() {
         oldItem == newItem
 }
 
-class JokesAdapter(private val deleteClickListener: onDeleteClickListener) :
+class JokesAdapter(private val onClickListener: onClickListener) :
     ListAdapter<FavouriteJoke, JokesAdapter.JokeViewHolder>(listDiffer) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeViewHolder {
@@ -36,7 +36,11 @@ class JokesAdapter(private val deleteClickListener: onDeleteClickListener) :
             binding.textJoke.text = joke.joke
 
             binding.deleteBt.setOnClickListener {
-                deleteClickListener.onDeleteClick(joke)
+                onClickListener.onDeleteClick(joke)
+            }
+
+            binding.shareBt.setOnClickListener {
+                onClickListener.onShareClick(joke)
             }
         }
     }

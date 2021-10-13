@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.tellmeajoke.data.db.entities.FavouriteJoke
 import com.tellmeajoke.main.DispatcherProvider
 import com.tellmeajoke.main.MainRepository
-import com.tellmeajoke.ui.adapter.onDeleteClickListener
+import com.tellmeajoke.ui.adapter.onClickListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

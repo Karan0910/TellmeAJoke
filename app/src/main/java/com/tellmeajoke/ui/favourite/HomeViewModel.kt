@@ -4,17 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tellmeajoke.data.db.entities.FavouriteJoke
 import com.tellmeajoke.data.models.JokeResponse
 import com.tellmeajoke.data.models.mapToJoke
 import com.tellmeajoke.main.DispatcherProvider
 import com.tellmeajoke.main.MainRepository
 import com.tellmeajoke.util.Resource
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
